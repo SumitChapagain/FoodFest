@@ -1,0 +1,618 @@
+/* ============================================
+   Food Fest Customer Interface Styles
+   "Modern Dark" Theme (Orange/Navy)
+   ============================================ */
+
+:root {
+    --primary-color: #f97316;
+    /* Orange */
+    --primary-dark: #ea580c;
+    --secondary-color: #f97316;
+    --bg-color: #17191C;
+    /* Custom Dark Grey */
+    --card-bg: #1f2937;
+    /* Dark Grey */
+    --text-color: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --success-color: #10b981;
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+    padding-bottom: 80px;
+}
+
+/* Header */
+header {
+    background: var(--bg-color);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.brand-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.brand-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.tagline {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Menu Section */
+.menu-section {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+/* Item Card Design */
+:root {
+    --card-bg-color: #1a1a1a;
+    --card-text-color: #ffffff;
+    --price-color: #FFD700;
+    /* Gold */
+    --tag-bg: #333;
+    --btn-bg: #C5A017;
+    /* Darker Gold */
+    --btn-text: #000;
+}
+
+#menuItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.menu-item-card {
+    background: var(--card-bg-color);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    transition: transform 0.2s;
+}
+
+.menu-item-card:hover {
+    transform: translateY(-5px);
+}
+
+.item-card-image {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid #333;
+}
+
+.item-card-image.placeholder {
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #444;
+}
+
+.item-card-content {
+    padding: 1.2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: var(--card-text-color);
+}
+
+.item-card-description {
+    font-size: 0.95rem;
+    color: #aaa;
+    margin: 0 0 1rem 0;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.item-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag-pill {
+    background: var(--tag-bg);
+    color: #ddd;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.item-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price-unit {
+    display: flex;
+    flex-direction: column;
+}
+
+.price {
+    color: var(--price-color);
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.unit {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+.btn-add-card {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background 0.2s;
+}
+
+.btn-add-card:hover {
+    background: #FFD700;
+}
+
+.quantity-control.sm {
+    background: #333;
+    padding: 2px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-control.sm .btn-qty {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    font-size: 1.2rem;
+}
+
+.quantity-control.sm .qty-display {
+    font-size: 1.1rem;
+}
+
+/* Sticky Cart Popup */
+.cart-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(31, 41, 55, 0.95);
+    /* Dark background */
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--primary-color);
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(249, 115, 22, 0.3);
+    z-index: 1000;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.cart-popup.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.cart-popup-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-count-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-total-price {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.btn-checkout {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(249, 115, 22, 0.3);
+}
+
+.btn-checkout:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(249, 115, 22, 0.4);
+}
+
+/* Animations */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animate-pulse {
+    animation: pulse 0.3s ease-in-out;
+}
+
+/* Modal and other elements */
+.loading,
+.no-items {
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+/* Checkout Page */
+.page {
+    display: none;
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page.active {
+    display: block;
+}
+
+.checkout-header {
+    margin-bottom: 2rem;
+}
+
+.qr-code {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 16px;
+    display: inline-block;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.checkout-item-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.checkout-item-details {
+    flex: 1;
+}
+
+.checkout-item-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.checkout-item-price {
+    color: var(--text-secondary);
+}
+
+.checkout-item-total {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.checkout-qty-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.checkout-qty-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 4px;
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+}
+
+.btn-qty-sm {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0;
+    transition: all 0.2s;
+}
+
+.btn-qty-sm:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* Confirmation */
+/* Back Button */
+.btn-back {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Success Checkmark Animation */
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--success-color);
+    color: white;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.27) forwards;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Confirmation Page Styles */
+.confirmation-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid var(--glass-border);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.token-display {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+}
+
+.token-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.token-number {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin: 0.5rem 0 0 0;
+    font-weight: 800;
+}
+
+/* Order Details Table Style */
+.order-details {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.order-details h3 {
+    margin-top: 0;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.confirmation-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.confirmation-item:last-child {
+    border-bottom: none;
+}
+
+.confirmation-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* Input Styling Fix */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}

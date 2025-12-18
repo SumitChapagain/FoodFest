@@ -1,0 +1,9 @@
+# QR Codes Directory
+# This directory stores generated QR code images
+# Files are automatically created when orders are placed
+
+# Allow access to image files
+<FilesMatch "\.(png|jpg|jpeg)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

@@ -1,0 +1,77 @@
+<?php
+/**
+ * Database Configuration and Connection Handler
+ * 
+ * This file handles the MySQL database connection for the Food Fest system.
+ * It uses mysqli for database operations with error handling.
+ */
+
+// Database configuration
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');          // Default XAMPP MySQL username
+define('DB_PASS', '');              // Default XAMPP MySQL password (empty)
+define('DB_NAME', 'foodfest');
+
+// Create database connection
+function getDBConnection() {
+    static $conn = null;
+    
+    if ($conn === null) {
+        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        
+        // Check connection
+        if ($conn->connect_error) {
+            error_log("Database connection failed: " . $conn->connect_error);
+            die(json_encode([
+                'success' => false,
+                'message' => 'Database connection failed. Please check your configuration.'
+            ]));
+        }
+        
+        // Set charset to utf8mb4 for proper emoji and special character support
+        $conn->set_charset("utf8mb4");
+    }
+    
+    return $conn;
+}
+
+// Close database connection
+function closeDBConnection() {
+    $conn = getDBConnection();
+    if ($conn) {
+        $conn->close();
+    }
+}
+
+// Execute a prepared statement with error handling
+function executeQuery($query, $types = '', $params = []) {
+    $conn = getDBConnection();
+    $stmt = $conn->prepare($query);
+    
+    if (!$stmt) {
+        error_log("Query preparation failed: " . $conn->error);
+        return false;
+    }
+    
+    // Bind parameters if provided
+    if (!empty($types) && !empty($params)) {
+        $stmt->bind_param($types, ...$params);
+    }
+    
+    // Execute query
+    if (!$stmt->execute()) {
+        error_log("Query execution failed: " . $stmt->error);
+        $stmt->close();
+        return false;
+    }
+    
+    return $stmt;
+}
+
+// Get last insert ID
+function getLastInsertId() {
+    $conn = getDBConnection();
+    return $conn->insert_id;
+}
+
+?>
