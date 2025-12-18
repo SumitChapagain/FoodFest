@@ -11,6 +11,10 @@ require_once '../includes/functions.php';
 
 header('Content-Type: application/json');
 
+// Disable error printing to output (breaks JSON)
+ini_set('display_errors', 0);
+error_reporting(E_ALL); // Keep logging enabled
+
 // Helper function to handle image upload
 // Helper function to handle image processing (Returns Base64 string)
 // Helper function to handle image processing (Returns Base64 string)
@@ -36,12 +40,14 @@ function handleImageProcess($file) {
     $base64 = base64_encode($content);
     
     // Determine mime type safely
-    $mimeType = 'image/jpeg'; // Default
+    $mimeType = 'image/jpeg'; // Default fallback
     
+    // Suppress warnings from these functions just in case
     if (function_exists('mime_content_type')) {
-        $mimeType = mime_content_type($file['tmp_name']);
+        $detected = @mime_content_type($file['tmp_name']);
+        if ($detected) $mimeType = $detected;
     } elseif (function_exists('getimagesize')) {
-        $imageInfo = getimagesize($file['tmp_name']);
+        $imageInfo = @getimagesize($file['tmp_name']);
         if ($imageInfo && isset($imageInfo['mime'])) {
             $mimeType = $imageInfo['mime'];
         }
