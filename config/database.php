@@ -8,21 +8,28 @@
 
 // Database configuration
 // Database configuration
+// Database configuration
 define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'foodfest');
+define('DB_PORT', getenv('DB_PORT') ?: 3306);
 
 // Create database connection
 function getDBConnection() {
     static $conn = null;
     
     if ($conn === null) {
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+        $conn = mysqli_init();
         
-        // Check connection
-        if ($conn->connect_error) {
-            error_log("Database connection failed: " . $conn->connect_error);
+        // Auto-enable SSL for remote connections (Aiven requires this)
+        if (getenv('DB_HOST') && getenv('DB_HOST') !== 'localhost') {
+            mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
+        }
+
+        // Connect with port and error handling
+        if (!mysqli_real_connect($conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, (int)DB_PORT)) {
+            error_log("Database connection failed: " . mysqli_connect_error());
             die(json_encode([
                 'success' => false,
                 'message' => 'Database connection failed. Please check your configuration.'
