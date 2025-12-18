@@ -233,7 +233,9 @@ requireAdminLogin();
                 }
             } catch (error) {
                 console.error(error);
-                alert('Failed to save item');
+            } catch (error) {
+                console.error(error);
+                alert('Failed to save item. Possible network or server error.');
             }
         });
         

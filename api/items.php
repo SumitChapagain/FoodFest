@@ -13,6 +13,7 @@ header('Content-Type: application/json');
 
 // Helper function to handle image upload
 // Helper function to handle image processing (Returns Base64 string)
+// Helper function to handle image processing (Returns Base64 string)
 function handleImageProcess($file) {
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return null;
@@ -34,8 +35,18 @@ function handleImageProcess($file) {
     // Convert to base64
     $base64 = base64_encode($content);
     
-    // Return with mime type prefix for direct usage in src
-    $mimeType = mime_content_type($file['tmp_name']);
+    // Determine mime type safely
+    $mimeType = 'image/jpeg'; // Default
+    
+    if (function_exists('mime_content_type')) {
+        $mimeType = mime_content_type($file['tmp_name']);
+    } elseif (function_exists('getimagesize')) {
+        $imageInfo = getimagesize($file['tmp_name']);
+        if ($imageInfo && isset($imageInfo['mime'])) {
+            $mimeType = $imageInfo['mime'];
+        }
+    }
+    
     return 'data:' . $mimeType . ';base64,' . $base64;
 }
 
