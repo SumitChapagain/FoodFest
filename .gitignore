@@ -1,0 +1,11 @@
+/vendor
+.env
+.DS_Store
+*.bat
+*.exe
+ngrok.exe
+network_info.txt
+SETUP.md
+migrate_remote_db.php
+vscode/
+.idea/
