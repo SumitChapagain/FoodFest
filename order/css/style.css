@@ -616,3 +616,31 @@ header {
 .form-control::placeholder {
     color: rgba(255, 255, 255, 0.3);
 }
+
+/* Mobile Improvements */
+@media (max-width: 768px) {
+    .menu-section {
+        padding: 0.8rem; /* Reduced from 1.5rem to make cards wider */
+    }
+    
+    #menuItems {
+        gap: 1rem; /* Reduced gap */
+        grid-template-columns: 1fr; /* Ensure single column for max width */
+    }
+    
+    .menu-item-card {
+        border-radius: 12px; /* Slightly tighter radius for mobile */
+    }
+    
+    .item-card-image {
+        height: 200px; /* Slightly shorter image to fit more content */
+    }
+    
+    .item-card-content {
+        padding: 1rem; /* Compact padding */
+    }
+    
+    .item-card-title {
+        font-size: 1.3rem; /* Readable size */
+    }
+}

@@ -63,7 +63,8 @@ if (isGetRequest()) {
 }
 
 // POST: Create new item (Admin only)
-if (isPostRequest()) {
+// Explicitly check that _method is NOT set, to avoid catching PUT-over-POST requests
+if (isPostRequest() && !isset($_POST['_method'])) {
     if (!isAdminLoggedIn()) {
         sendJsonResponse(false, null, 'Unauthorized access');
     }
