@@ -1,0 +1,11 @@
+.git
+.gitignore
+*.bat
+*.exe
+network_info.txt
+SETUP.md
+README.md
+Dockerfile
+.dockerignore
+database.sql
+ngrok.exe

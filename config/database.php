@@ -7,10 +7,11 @@
  */
 
 // Database configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');          // Default XAMPP MySQL username
-define('DB_PASS', '');              // Default XAMPP MySQL password (empty)
-define('DB_NAME', 'foodfest');
+// Database configuration
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'foodfest');
 
 // Create database connection
 function getDBConnection() {

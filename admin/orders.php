@@ -81,6 +81,9 @@ requireAdminLogin();
     <script src="js/admin.js"></script>
     <script src="js/qrcode.min.js"></script>
     <script>
+        // Detect base path dynamically
+        const basePath = window.location.pathname.includes('/FoodFest') ? '/FoodFest' : '';
+
         // State variables
         let orders = [];
         let currentFilter = 'all';
@@ -138,7 +141,7 @@ requireAdminLogin();
         // Load all orders
         async function loadOrders() {
             try {
-                const response = await fetch('/FoodFest/api/orders.php');
+                const response = await fetch(`${basePath}/api/orders.php`);
                 const data = await response.json();
                 
                 if (data.success) {
@@ -228,7 +231,7 @@ requireAdminLogin();
         // Update order status
         async function updateOrderStatus(orderId, newStatus) {
             try {
-                const response = await fetch('/FoodFest/api/orders.php', {
+                const response = await fetch(`${basePath}/api/orders.php`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id: orderId, status: newStatus })
@@ -258,7 +261,7 @@ requireAdminLogin();
         // View order details
         async function viewOrderDetails(token) {
             try {
-                const response = await fetch(`/FoodFest/api/orders.php?token=${token}`);
+                const response = await fetch(`${basePath}/api/orders.php?token=${token}`);
                 const data = await response.json();
                 
                 if (data.success) {
@@ -295,7 +298,7 @@ requireAdminLogin();
                                         <tr>
                                             <td>
                                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                                    ${item.image_path ? `<img src="/FoodFest/${item.image_path}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">` : ''}
+                                                    ${item.image_path ? `<img src="${basePath}/${item.image_path}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">` : ''}
                                                     ${item.name}
                                                 </div>
                                             </td>
@@ -374,7 +377,7 @@ requireAdminLogin();
             if (!confirm('Are you absolutely sure? All data will be lost.')) return;
             
             try {
-                const response = await fetch('/FoodFest/api/orders.php', {
+                const response = await fetch(`${basePath}/api/orders.php`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'deleteAll', password: password })

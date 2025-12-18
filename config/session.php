@@ -57,7 +57,9 @@ function destroyAdminSession() {
 // Require admin login - redirect to login page if not authenticated
 function requireAdminLogin() {
     if (!isAdminLoggedIn()) {
-        header('Location: /FoodFest/admin/login.php');
+        // Detect base path for redirection
+        $basePath = (strpos($_SERVER['REQUEST_URI'], '/FoodFest') !== false) ? '/FoodFest' : '';
+        header("Location: $basePath/admin/login.php");
         exit();
     }
 }

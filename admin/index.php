@@ -88,10 +88,13 @@ requireAdminLogin();
     <script src="js/dashboard-chart.js"></script>
     <script src="js/admin.js"></script>
     <script>
+        // Detect base path dynamically
+        const basePath = window.location.pathname.includes('/FoodFest') ? '/FoodFest' : '';
+
         // Load dashboard stats
         async function loadDashboardStats() {
             try {
-                const response = await fetch('/FoodFest/api/orders.php');
+                const response = await fetch(`${basePath}/api/orders.php`);
                 const data = await response.json();
                 
                 if (data.success) {

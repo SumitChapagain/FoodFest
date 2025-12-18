@@ -4,6 +4,9 @@
  * Handles menu loading, cart management, and order placement
  */
 
+// Detect base path dynamically
+const basePath = window.location.pathname.includes('/FoodFest') ? '/FoodFest' : '';
+
 let menuItems = [];
 let cart = [];
 
@@ -18,7 +21,7 @@ function showPage(pageId) {
 // Load menu items
 async function loadMenu() {
     try {
-        const response = await fetch('/FoodFest/api/items.php?available=true');
+        const response = await fetch(`${basePath}/api/items.php?available=true`);
         const data = await response.json();
 
         if (data.success) {
@@ -65,7 +68,7 @@ function displayMenu() {
         return `
             <div class="menu-item-card">
                 ${item.image_path ?
-                `<div class="item-card-image" style="background-image: url('/FoodFest/${item.image_path}')"></div>` :
+                `<div class="item-card-image" style="background-image: url('${basePath}/${item.image_path}')"></div>` :
                 `<div class="item-card-image placeholder">🍔</div>`
             }
                 <div class="item-card-content">
@@ -309,7 +312,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
     };
 
     try {
-        const response = await fetch('/FoodFest/api/orders.php', {
+        const response = await fetch(`${basePath}/api/orders.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

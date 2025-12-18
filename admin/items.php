@@ -91,12 +91,15 @@ requireAdminLogin();
     
     <script src="js/admin.js"></script>
     <script>
+        // Detect base path dynamically
+        const basePath = window.location.pathname.includes('/FoodFest') ? '/FoodFest' : '';
+
         let items = [];
         
         // Load all items
         async function loadItems() {
             try {
-                const response = await fetch('/FoodFest/api/items.php');
+                const response = await fetch(`${basePath}/api/items.php`);
                 const data = await response.json();
                 
                 if (data.success) {
@@ -121,7 +124,7 @@ requireAdminLogin();
                 <div class="item-card ${item.availability == 0 ? 'unavailable' : ''}">
                     <div class="item-image-container">
                         ${item.image_path ? 
-                            `<img src="/FoodFest/${item.image_path}" alt="${item.name}" class="item-img-preview">` : 
+                            `<img src="${basePath}/${item.image_path}" alt="${item.name}" class="item-img-preview">` : 
                             `<div class="no-image">🍔</div>`}
                     </div>
                     <div class="item-header">
@@ -171,7 +174,7 @@ requireAdminLogin();
             
             const preview = document.getElementById('imagePreview');
             if (item.image_path) {
-                preview.innerHTML = `<img src="/FoodFest/${item.image_path}" style="max-width: 100px; max-height: 100px; margin-top: 5px; border-radius: 4px;">`;
+                preview.innerHTML = `<img src="${basePath}/${item.image_path}" style="max-width: 100px; max-height: 100px; margin-top: 5px; border-radius: 4px;">`;
             } else {
                 preview.innerHTML = '';
             }
@@ -209,7 +212,7 @@ requireAdminLogin();
             }
             
             try {
-                const response = await fetch('/FoodFest/api/items.php', {
+                const response = await fetch(`${basePath}/api/items.php`, {
                     method: 'POST', // Always POST for FormData with files
                     body: formData
                 });
@@ -234,7 +237,7 @@ requireAdminLogin();
             const newStatus = currentStatus == 1 ? 0 : 1;
             
             try {
-                const response = await fetch('/FoodFest/api/items.php', {
+                const response = await fetch(`${basePath}/api/items.php`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id, availability: newStatus })
@@ -257,7 +260,7 @@ requireAdminLogin();
             if (!confirm('Are you sure you want to delete this item?')) return;
             
             try {
-                const response = await fetch('/FoodFest/api/items.php', {
+                const response = await fetch(`${basePath}/api/items.php`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })

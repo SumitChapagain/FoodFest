@@ -38,6 +38,8 @@
     </div>
     
     <script>
+        const basePath = window.location.pathname.includes('/FoodFest') ? '/FoodFest' : '';
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -46,7 +48,7 @@
             const errorMessage = document.getElementById('errorMessage');
             
             try {
-                const response = await fetch('/FoodFest/api/auth.php', {
+                const response = await fetch(`${basePath}/api/auth.php`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
