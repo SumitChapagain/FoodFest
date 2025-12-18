@@ -123,9 +123,12 @@ requireAdminLogin();
             grid.innerHTML = items.map(item => `
                 <div class="item-card ${item.availability == 0 ? 'unavailable' : ''}">
                     <div class="item-image-container">
-                        ${item.image_path ? 
-                            `<img src="${basePath}/${item.image_path}" alt="${item.name}" class="item-img-preview">` : 
-                            `<div class="no-image">🍔</div>`}
+                        ${item.image_data ? 
+                            `<img src="${item.image_data}" alt="${item.name}" class="item-img-preview">` :
+                            (item.image_path ? 
+                                `<img src="${basePath}/${item.image_path}" alt="${item.name}" class="item-img-preview">` : 
+                                `<div class="no-image">🍔</div>`)
+                        }
                     </div>
                     <div class="item-header">
                         <h3>${item.name}</h3>
@@ -173,7 +176,9 @@ requireAdminLogin();
             document.getElementById('itemAvailability').checked = item.availability == 1;
             
             const preview = document.getElementById('imagePreview');
-            if (item.image_path) {
+            if (item.image_data) {
+                 preview.innerHTML = `<img src="${item.image_data}" style="max-width: 100px; max-height: 100px; margin-top: 5px; border-radius: 4px;">`;
+            } else if (item.image_path) {
                 preview.innerHTML = `<img src="${basePath}/${item.image_path}" style="max-width: 100px; max-height: 100px; margin-top: 5px; border-radius: 4px;">`;
             } else {
                 preview.innerHTML = '';

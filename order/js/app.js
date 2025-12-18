@@ -65,10 +65,18 @@ function displayMenu() {
             ).join('');
         }
 
+        // Helper for image source
+        let imageSrc = '';
+        if (item.image_data) {
+            imageSrc = item.image_data; // Base64 data
+        } else if (item.image_path) {
+            imageSrc = `${basePath}/${item.image_path}`; // Fallback legacy path
+        }
+        
         return `
             <div class="menu-item-card">
-                ${item.image_path ?
-                `<div class="item-card-image" style="background-image: url('${basePath}/${item.image_path}')"></div>` :
+                ${imageSrc ?
+                `<div class="item-card-image" style="background-image: url('${imageSrc}')"></div>` :
                 `<div class="item-card-image placeholder">🍔</div>`
             }
                 <div class="item-card-content">

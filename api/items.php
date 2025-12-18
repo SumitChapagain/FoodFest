@@ -12,14 +12,10 @@ require_once '../includes/functions.php';
 header('Content-Type: application/json');
 
 // Helper function to handle image upload
-function handleImageUpload($file) {
+// Helper function to handle image processing (Returns Base64 string)
+function handleImageProcess($file) {
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return null;
-    }
-
-    $uploadDir = '../assets/images/items/';
-    if (!file_exists($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
     }
 
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -28,16 +24,19 @@ function handleImageUpload($file) {
     if (!in_array($extension, $allowedExtensions)) {
         return null; // Invalid file type
     }
-
-    // Generate unique filename
-    $filename = uniqid('item_') . '.' . $extension;
-    $targetPath = $uploadDir . $filename;
-
-    if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return 'assets/images/items/' . $filename; // Return relative path for DB
+    
+    // Read file content
+    $content = file_get_contents($file['tmp_name']);
+    if ($content === false) {
+        return null;
     }
-
-    return null;
+    
+    // Convert to base64
+    $base64 = base64_encode($content);
+    
+    // Return with mime type prefix for direct usage in src
+    $mimeType = mime_content_type($file['tmp_name']);
+    return 'data:' . $mimeType . ';base64,' . $base64;
 }
 
 // GET: Fetch all items
@@ -81,14 +80,17 @@ if (isPostRequest()) {
         sendJsonResponse(false, null, 'Invalid item data');
     }
     
-    $imagePath = null;
+    $imageData = null;
+    $imagePath = null; // Deprecated but kept for schema compatibility or fallback
+    
     if (isset($_FILES['image'])) {
-        $imagePath = handleImageUpload($_FILES['image']);
+        $imageData = handleImageProcess($_FILES['image']);
     }
     
     $conn = getDBConnection();
-    $stmt = $conn->prepare("INSERT INTO items (name, price, availability, image_path, description, tags, unit) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sdissss", $name, $price, $availability, $imagePath, $description, $tags, $unit);
+    // image_data is the new column
+    $stmt = $conn->prepare("INSERT INTO items (name, price, availability, image_data, image_path, description, tags, unit) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sdisssss", $name, $price, $availability, $imageData, $imagePath, $description, $tags, $unit);
     
     if ($stmt->execute()) {
         sendJsonResponse(true, ['id' => $conn->insert_id], 'Item added successfully');
@@ -133,10 +135,10 @@ if (isPostRequest() && isset($_POST['_method']) && $_POST['_method'] === 'PUT') 
     
     // Check for new image
     if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
-        $imagePath = handleImageUpload($_FILES['image']);
-        if ($imagePath) {
-            $stmt = $conn->prepare("UPDATE items SET name = ?, price = ?, availability = ?, image_path = ?, description = ?, tags = ?, unit = ? WHERE id = ?");
-            $stmt->bind_param("sdissssi", $name, $price, $availability, $imagePath, $description, $tags, $unit, $id);
+        $imageData = handleImageProcess($_FILES['image']);
+        if ($imageData) {
+            $stmt = $conn->prepare("UPDATE items SET name = ?, price = ?, availability = ?, image_data = ?, description = ?, tags = ?, unit = ? WHERE id = ?");
+            $stmt->bind_param("sdissssi", $name, $price, $availability, $imageData, $description, $tags, $unit, $id);
         } else {
              // Image upload failed or invalid, just update other fields
              $stmt = $conn->prepare("UPDATE items SET name = ?, price = ?, availability = ?, description = ?, tags = ?, unit = ? WHERE id = ?");
