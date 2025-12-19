@@ -70,6 +70,32 @@ requireAdminLogin();
                 <canvas id="ordersChart"></canvas>
             </div>
         </div>
+
+        <div class="revenue-section">
+            <h2>Revenue Statistics</h2>
+            <div class="table-container">
+                <table class="revenue-table" id="revenueTable">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Quantity Sold</th>
+                            <th>Revenue Generated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="revenueTableBody">
+                        <tr>
+                            <td colspan="3" class="loading">Loading...</td>
+                        </tr>
+                    </tbody>
+                    <tfoot id="revenueTableFooter">
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Total Revenue</strong></td>
+                            <td><strong id="totalRevenue">Rs. 0.00</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
         
         <div class="quick-actions">
             <h2>Quick Actions</h2>
@@ -134,6 +160,37 @@ requireAdminLogin();
             }
         }
         
+        // Load revenue statistics
+        async function loadRevenueStats() {
+            try {
+                const response = await fetch(`${basePath}/api/revenue.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const { items, total_revenue } = data.data;
+                    const tableBody = document.getElementById('revenueTableBody');
+                    
+                    if (items.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="3" class="no-data">No sales data yet</td></tr>';
+                        document.getElementById('totalRevenue').textContent = 'Rs. 0.00';
+                    } else {
+                        tableBody.innerHTML = items.map(item => `
+                            <tr>
+                                <td>${item.item_name}</td>
+                                <td>${item.total_quantity}</td>
+                                <td>Rs. ${item.total_revenue.toFixed(2)}</td>
+                            </tr>
+                        `).join('');
+                        document.getElementById('totalRevenue').textContent = `Rs. ${total_revenue.toFixed(2)}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load revenue stats:', error);
+                document.getElementById('revenueTableBody').innerHTML = 
+                    '<tr><td colspan="3" class="error">Failed to load revenue data</td></tr>';
+            }
+        }
+        
         // Initialize Chart
         const chart = new DashboardChart('ordersChart');
 
@@ -156,9 +213,13 @@ requireAdminLogin();
         
         // Load stats on page load
         loadDashboardStats();
+        loadRevenueStats();
         
         // Refresh stats every 10 seconds
-        setInterval(loadDashboardStats, 10000);
+        setInterval(() => {
+            loadDashboardStats();
+            loadRevenueStats();
+        }, 10000);
     </script>
 </body>
 </html>
